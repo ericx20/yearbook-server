@@ -4,7 +4,8 @@ const app = express()
 require('./src/db/mongoose.js')
 const Page = require('./src/models/page.js')
 
-ObjectId = require('mongodb').ObjectID;
+// probably not needed anymore, Mongoose can find by ID with strings
+// ObjectId = require('mongodb').ObjectID;
 
 const path = require('path');
 
@@ -17,6 +18,7 @@ const publicPath = path.join(__dirname, '/public')
 app.use(express.static(publicPath))
 app.use(express.json())
 
+// SERVE UP HTML PAGE
 app.get('', (req, res) => {
     res.sendFile(path.join(publicPath + '/index.html'))
     console.log('i said hello!!')
@@ -33,38 +35,54 @@ app.get('/test', (req, res) => {
 
     res.json({
         canvas: req.query.canvas,
-        id: 123
+        id: "123"
     })
 })
 
 // CREATE A NEW YEARBOOK (with JSON)
-// and send the code (hardcoded code for now)
-// for now, database won't have code
-app.post('/create', (req, res) => {
-    console.log('CREATE NEW YEARBOOK')
-    // res.json(req.body) // parse JSON
-    console.log(req.body)
-    res.json({
-        _id: "1234" // HARDCODED
+// then sends the new page to client
+app.post('/api', (req, res) => {
+    console.log('CREATE NEW YEARBOOK') // DEBUGGING
+    console.log(req.body) // DEBUGGING
+    const page = new Page(req.body)
+    page.save().then(() => {
+        res.status(201).send(page)
+    }).catch((e) => {
+        res.status(400).send(e)
     })
 })
 
 // READ A YEARBOOK (with query string)
-app.get('/read', (req, res) => {
-    console.log('READ YEARBOOK')
+app.get('/api', (req, res) => {
+    console.log('READ YEARBOOK') // DEBUGGING
     console.log(req.query._id)
 
-    Page.findById(ObjectId(req.query._id)).then((page) => {
-        console.log(page)
+    Page.findById(req.query._id).then((page) => {
+        console.log(page) // DEBUGGING
         if (!page) {
             return res.status(404).send()
         }
         res.send(page)
-    }).catch((e) => {
+    }).catch(() => {
         res.status(500).send()
     })
 })
 
+// UPDATE A YEARBOOK (with query for ID, and JSON for canvas)
+// "signing a yearbook" corresponds to updating the canvas of a page
+// updateOne won't send back the updated page
+app.patch('/api', (req, res) => {
+    console.log('UPDATE YEARBOOK') // DEBUGGING
+    Page.updateOne({ _id: req.query._id }, req.body).then((page) => {
+        console.log(page) // DEBUGGING
+        if (!page) {
+            return res.status(404).send()
+        }
+        res.status(200).send()
+    }).catch(() => {
+        res.status(500).send()
+    })
+})
 
 // this starts the server
 app.listen(port, () => {

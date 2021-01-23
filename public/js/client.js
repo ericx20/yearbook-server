@@ -1,5 +1,6 @@
 const testForm = document.querySelector('form')
-const testResponse = document.querySelector('input')
+const testCanvas = document.querySelector('#canvasInput')
+const testKey = document.querySelector('#keyInput')
 const lineOne = document.querySelector('#lineOne')
 const lineTwo = document.querySelector('#lineTwo')
 
@@ -10,10 +11,11 @@ const lineTwo = document.querySelector('#lineTwo')
 // e stands for event
 testForm.addEventListener('submit', (e) => {
     e.preventDefault() // prevent default refreshing page
-    const canvas = testResponse.value
+    const canvas = testCanvas.value
+    const key = testKey.value
     console.log(canvas);
 
-    // now fetch
+    // now fetch (this is probably broken)
     fetch('/test?canvas=' + canvas).then((response) => {
         response.json().then((data) => {
             if (data.error) {
