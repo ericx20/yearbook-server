@@ -1,7 +1,11 @@
 const express = require('express')
 const app = express()
+
 require('./src/db/mongoose.js')
 const Page = require('./src/models/page.js')
+
+ObjectId = require('mongodb').ObjectID;
+
 const path = require('path');
 
 // make port Heroku's env variable
@@ -21,15 +25,15 @@ app.get('', (req, res) => {
 
 // THIS IS A TEST (with query string)
 app.get('/test', (req, res) => {
-    if (!req.query.lineData) { // req.query.lineData is the query string ?lineData=<query string>
+    if (!req.query.canvas) { // req.query.canvas is the query string ?canvas=<query string>
         return res.send({
-            error: 'Error, please enter lineData!'
+            error: 'Error, please enter canvas!'
         })
     }
 
     res.json({
-        lineData: req.query.lineData,
-        code: 123
+        canvas: req.query.canvas,
+        id: 123
     })
 })
 
@@ -41,22 +45,23 @@ app.post('/create', (req, res) => {
     // res.json(req.body) // parse JSON
     console.log(req.body)
     res.json({
-        code: 1234 // HARDCODED
+        _id: "1234" // HARDCODED
     })
 })
 
 // READ A YEARBOOK (with query string)
 app.get('/read', (req, res) => {
-    if (!req.query.code) { // add database check if it exists
-        return res.send({
-            error: 'Error, code not found!'
-        })
-    }
-
     console.log('READ YEARBOOK')
-    console.log(req.query.code)
-    res.json({
-        lineData: 'here-is-lineData', // ALSO HARDCODED
+    console.log(req.query._id)
+
+    Page.findById(ObjectId(req.query._id)).then((page) => {
+        console.log(page)
+        if (!page) {
+            return res.status(404).send()
+        }
+        res.send(page)
+    }).catch((e) => {
+        res.status(500).send()
     })
 })
 

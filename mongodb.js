@@ -1,4 +1,4 @@
-// CRUD create read update delete
+// this is a test file for connecting to MongoDB
 
 const { MongoClient, ObjectID } = require('mongodb')
 
@@ -13,8 +13,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     const db = client.db(databaseName)
 
     db.collection('pages').insertOne({
-        lineData: 'l-i-n-e-D-a-t-a',
-        code: 'c-o-d-e',
+        canvas: 'c-a-n-v-a-s',
         key: 'k-e-y'
     }, (error, result) => {
         if (error) {

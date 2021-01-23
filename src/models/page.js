@@ -1,10 +1,7 @@
 const mongoose = require('mongoose')
 
 const Page = mongoose.model('Page', {
-    lineData: {
-        type: String
-    },
-    code: {
+    canvas: {
         type: String,
         required: true
     },
