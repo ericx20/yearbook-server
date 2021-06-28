@@ -6,14 +6,32 @@
     <title>test</title>
 </head>
 <body>
-    <p>Welcome to yearbook server!</p>
-    <form>
-        <input id="canvasInput" placeholder="enter canavs data here">
-        <input id="keyInpt" placeholder="enter key here">
-        <button>Send!</button>
+    <h1>Welcome to yearbook server test site!</h1>
+    <h2>Create page</h2>
+    <form id="create-form">
+        <input id="create-canvas" placeholder="enter canvas data here">
+        <input id="create-key" placeholder="enter key here">
+        <button id="create-button">Create!</button>
     </form>
-    <p id="lineOne"></p>
-    <p id="lineTwo"></p>
+    <p id="create-response"></p>
+    <h2>Read page</h2>
+    <form id="read-form">
+        <input id="read-id" placeholder="enter code here">
+        <button id="read-button">Read!</button>
+    </form>
+    <p id="read-response"></p>
+    <h2>Update page</h2>
+    <form id="update-form">
+        <input id="update-id" placeholder="enter code here">
+        <input id="update-canvas" placeholder="enter updated canvas data here">
+        <button id="update-button">Update!</button>
+    </form>
+    <h2>Delete page</h2>
+    <form id="delete-form">
+        <input id="delete-id" placeholder="enter code here">
+        <input id="delete-key" placeholder="enter key here">
+        <button id="delete-button">Delete!</button>
+    </form>
     <script src="/js/client.js"></script>
 </body>
 </html>

@@ -13,8 +13,8 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     const db = client.db(databaseName)
 
     db.collection('pages').insertOne({
-        canvas: 'c-a-n-v-a-s',
-        key: 'k-e-y'
+        canvas: 'testing1',
+        key: 'key1'
     }, (error, result) => {
         if (error) {
             return console.log('Unable to insert page')

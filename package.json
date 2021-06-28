@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db": "C:/mongodb/bin/mongod.exe --dbpath=C:/mongodb-data",
+    "insert": "node ./mongodb.js",
+    "serve": "node ./server.js"
   },
   "keywords": [],
   "author": "",
